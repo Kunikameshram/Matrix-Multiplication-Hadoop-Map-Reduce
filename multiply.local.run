@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH -A uot195
+#SBATCH --job-name="multiply.local"
+#SBATCH --output="multiply.local.out"
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --mem=16G
+#SBATCH --export=ALL
+#SBATCH --time=20
+
+module load cpu/0.15.4 gcc/7.5.0 openjdk hadoop/3.2.2
+SW=/expanse/lustre/projects/uot195/fegaras
+export TMPDIR=$HOME/tmp
+
+rm -rf tmp output
+hadoop --config $SW/conf jar multiply.jar Multiply M-matrix-small.txt N-matrix-small.txt tmp output
